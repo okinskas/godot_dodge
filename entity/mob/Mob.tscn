@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://dodge_assets/art/enemyFlyingAlt_2.png" type="Texture" id=1]
+[ext_resource path="res://dodge_assets/art/enemySwimming_1.png" type="Texture" id=2]
+[ext_resource path="res://entity/mob/Mob.gd" type="Script" id=3]
+[ext_resource path="res://dodge_assets/art/enemyFlyingAlt_1.png" type="Texture" id=4]
+[ext_resource path="res://dodge_assets/art/enemyWalking_2.png" type="Texture" id=5]
+[ext_resource path="res://dodge_assets/art/enemySwimming_2.png" type="Texture" id=6]
+[ext_resource path="res://dodge_assets/art/enemyWalking_1.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "fly",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "swim",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 35.5366
+height = 26.7211
+
+[sub_resource type="OccluderPolygon2D" id=4]
+polygon = PoolVector2Array( -19.2882, 35.9635, 1.94328, 36.3603, 27.1433, 34.1777, 38.2551, 25.2485, 46.1921, 15.3273, 48.97, 0.445389, 46.1921, -15.0318, 36.6677, -26.9373, 26.1512, -33.0885, 13.6504, -35.8664, -19.8835, -35.4696 )
+
+[node name="Mob" type="RigidBody2D" groups=[
+"mobs",
+]]
+light_mask = 2
+position = Vector2( 0.264862, 0 )
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+light_mask = 1024
+scale = Vector2( 0.75, 0.75 )
+frames = SubResource( 1 )
+animation = "swim"
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource( 4 )
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
